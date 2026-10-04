@@ -1,0 +1,32 @@
+{
+  "theme_color": "#00FF00",
+  "background_color": "#FFFFFF",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "../images/memo-icon.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "512x512",
+      "src": "../images/memo-icon.png",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null,
+  "orientation": "any",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "ja",
+  "name": "P-Memo&TextEditor",
+  "short_name": "P-Memo&TextEditor",
+  "start_url": "/",  
+  "scope": "/",                
+  "prefer_related_applications": true,  
+  "related_applications": [],   
+  "serviceworker": {
+    "src": "./assets/scripts/memo.js"           
+  }
+}

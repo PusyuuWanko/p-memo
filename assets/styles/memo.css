@@ -1,0 +1,642 @@
+/*****************************************
+  *----------------------------------
+  |  ThisCssVersion: 2.0.0        |
+  |  © 2021-2026 By ISAMI ABE     |
+  |  LastUpdate: 2026-07-29       |
+  |  License: MIT License         |
+  |  PusyuuMemoNote               |
+----------------------------------*
+******************************************/
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/*
+  header/footer/main/nav/sectionはHTML5で追加された要素です。古いブラウザ
+  (IE8以前など、HTML5未対応のもの)はこれらを「知らないタグ」として扱い、
+  既定のdisplayがinlineになります。インライン要素はpaddingの上下やmin-height
+  が効かないため、幅・高さがある前提のレイアウトが丸ごと崩れます。
+  ここでdisplay: blockを明示しておけば、その心配がなくなります
+  （下の header/footer で改めて display: flex を指定していますが、flexを
+  理解できないほど古いブラウザはその宣言自体を無視するため、ここで指定した
+  display: blockがそのまま生き残る、という仕組みです）。
+*/
+header,
+footer,
+main,
+nav,
+section {
+  display: block;
+}
+
+header {
+  width: 100%;
+  height: 75px;
+  background: #00ff00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px 0px;
+}
+nav > ul {
+  display: flex;
+  gap: 15px;
+}
+nav > ul > li {
+  list-style: none;
+}
+nav > ul > li > a {
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+nav > ul > li > a:hover {
+  color: #000;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: #00aaff;
+  text-underline-offset: 10px
+}
+
+main {
+  padding: 20px;
+  min-height: 100vh;
+  background: #eeeeff;
+}
+
+footer {
+  background: #000;
+  color: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* IE11はflexアイテムの min-width の初期値が auto のままで、中身の幅までしか
+     縮められません。他のflexコンテナ内の要素は元々幅いっぱいに広がる作りでは
+     ないため気づきにくいのですが、footerのように横幅いっぱいのテキストが
+     並ぶ場所ではこれが原因で折り返さずにはみ出します。 */
+  width: 100%;
+}
+footer > div {
+  padding: 15px;
+  min-width: 0;
+  max-width: 100%;
+  /* 長いURLなど、区切りの無い文字列が来てもコンテナ幅で折り返させます */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+footer li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+footer h3 {
+  color: #00aaff;
+}
+footer ul {
+  margin: 0;
+  padding: 0;
+}
+footer li {
+  list-style: none;
+}
+footer a {
+  color: #aaff00;
+  transition: all 0.3s;
+}
+footer a:hover {
+  color: #00ff00;
+}
+
+button,
+.button {
+  display: inline-block;
+  border-width: 0;
+  background-color: #00cccc;
+  color: #000;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 3px 3px #000;
+  transition: all 0.15s;
+}
+button:hover,
+.button:hover {
+  background-color: #00aacc;
+  box-shadow: 0px 0px #000;
+  transform: translate(3px, 3px);
+  text-decoration: none;
+  color: #000;
+}
+button:active,
+.button:active {
+  background-color: #00aaff;
+  color: #fff;
+}
+select {
+  border-width: 0;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #000;
+  background-color: #00fcff;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.form > textarea {
+  width: 100%;
+  height: 80vh;
+  resize: none;
+  border-width: 0px;
+  border: 1px solid #000;
+  border-radius: 0px;
+  box-sizing: border-box;
+}
+.buttons {
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: flex-start;
+}
+
+#moziCount {
+  margin: 5px 0px 0px;
+  padding: 3px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+/* 置換フォーム。
+   JavaScriptが動かない環境では、開けないモーダルに閉じ込めてしまうと機能が
+   使えなくなるため、ページ内にそのまま並べて表示します。 */
+.myModal {
+  margin: 10px 0px;
+}
+.myModal > div {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.myModal > div > p {
+  margin-top: 0;
+}
+.myModal > div > div {
+  display: flex;
+  flex-direction: column;
+}
+.myModal > div > div > input,
+.myModal > div > div > select {
+  margin: 5px 0px 5px;
+  padding: 5px;
+}
+
+/* JavaScriptが動く環境では、従来どおり画面全体を覆うモーダルにします */
+.js .myModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+.js .myModal > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+}
+
+.readmore {
+  position: relative;
+  margin: 50px auto 0;
+  padding: 0 0 75px;
+}
+
+.readmore > label {
+  position: absolute;
+  display: table;
+  left: 50%;
+  bottom: 0;
+  margin: 10px auto;
+  width: 200px;
+  padding: 10px 0;
+  color: #fff;
+  text-align: center;
+  border-radius: 0px;
+  border: 1px solid #000;
+  background-color: #00ee00;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 1;
+}
+.readmore > label:active {
+  background: #00aa00;
+}
+
+.readmore > label::before{
+  content: '続きを見る';
+}
+
+.readmore > input[type="checkbox"]:checked ~ label::before {
+  content: '元に戻す';
+}
+
+.readmore > input[type="checkbox"]{
+  display: none;
+}
+
+.readmore > div {
+  position: relative;
+  height: 50px;
+  overflow: hidden;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+}
+
+.readmore > input[type="checkbox"]:checked ~ div {
+  height: auto;
+  background: rgba(0,0,0,0);
+}
+
+/* モーダル設定
+---------------------------------------------*/
+
+.modal {
+  display: none;
+  z-index: 666;
+}
+.modal:target {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /* flexboxを知らない古いブラウザは、下の display: flex を無効な値として
+     無視し、上の .modal の display: none を引きずったまま何も表示されなく
+     なってしまう。先にdisplay: blockを書いておき、最低限「見える」状態を
+     確保したうえで、対応ブラウザにだけ display: flex で中央寄せさせる。*/
+  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal > div {
+  animation: modal-show 0.3s linear 0s;
+}
+@keyframes modal-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.modal > div > a {
+  position: relative;
+  display: block;
+}
+.modal > div > a::before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  content: "";
+  background-color: rgba(0,0,0,0.4);
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.modal > div > a::after {
+  content: "✕";
+  color: white;
+  position: absolute;
+  right: -13px;
+  top: -13px;
+  width: 25px;
+  height: 25px;
+  z-index: 1;
+  border-radius: 50px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.modal > div > div {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #fff;
+}
+.modal > div > div > span {
+  position: relative;
+  width: 70vw;
+  background: #77ff00;
+  min-height: 20px;
+  font-size: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid #00ffff;
+  color: #fff;
+  word-break: break-all;
+}
+.modal > div > div > div {
+  position: relative;
+  width: 70vw;
+  height: 60vh;
+  border-radius: 0px;
+  overflow: hidden;
+  cursor: default;
+  padding: 15px;
+  overflow: auto;
+  color: #fff;
+}
+
+.center {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.yokoori {
+  display: flex;
+  flex-wrap: wrap;
+}
+.app_link {
+  text-decoration: none;
+  color: #fff000;
+  transition: all 0.1s;
+  color: #fff000;
+  display: block;
+}
+.app_link:hover {
+  color: #fff000;
+}
+.app_link:active {
+  background-color: rgba(10,255,10,0.2);
+  color: #ffffff;
+}
+.app_box-1 {
+  height: 40px;
+  padding: 5px;
+  background-color: #ccc;
+  border-radius: 5px;
+}
+.app-name {
+  height: 40px;
+  padding: 5px;
+  background-color: #ccc;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.app_name {
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-shadow: 1px 1px #000; 
+}
+.app_wrapper {
+  text-align: center;
+  margin: 15px;
+  width: 50px;
+  height: 80px;
+  display: inline-block;
+}
+
+/* JavaScriptの有無による出し分け
+---------------------------------------------*/
+
+/* JavaScriptでしか動かないボタンは、動かない環境では最初から見せません。
+   押しても何も起きないボタンが並んでいるより、無い方が親切なためです。 */
+.js_only {
+  display: none;
+}
+.js .js_only {
+  display: inline-block;
+}
+
+/* 操作結果のお知らせと警告
+---------------------------------------------*/
+
+.flash {
+  margin: 0 0 15px;
+  padding: 12px 15px;
+  border: 1px solid #00aaff;
+  background: #e6f7ff;
+  color: #003344;
+  word-break: break-all;
+}
+
+.undo_form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.warning {
+  margin: 0 0 15px;
+  padding: 15px;
+  border: 2px solid #ff8800;
+  background: #fff6e6;
+  color: #442200;
+}
+.warning h3 {
+  margin-top: 0;
+  color: #cc5500;
+}
+.lost_chars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.lost_chars > span {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid #cc5500;
+  background: #fff;
+  font-size: 18px;
+}
+
+/* エディタまわり
+---------------------------------------------*/
+
+.editor_settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+.editor_settings > label {
+  padding: 0 3px;
+  white-space: nowrap;
+}
+.editor_settings > input {
+  flex: 1 1 200px;
+  min-width: 150px;
+  padding: 5px;
+  border: 1px solid #000;
+}
+
+/* ボタンが増えたので、狭い画面では折り返すようにします */
+.buttons {
+  flex-wrap: wrap;
+}
+
+.upload_form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid #000;
+  background: #fff;
+}
+
+.note {
+  font-size: 12px;
+  color: #445;
+}
+
+/* アカウントまわり
+---------------------------------------------*/
+
+/* ヘッダーのログアウトボタンなど、見た目をリンクに寄せたボタン */
+.link_button {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #fff;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: none;
+}
+.link_button:hover {
+  background: none;
+  box-shadow: none;
+  transform: none;
+  color: #fff;
+  text-decoration: underline;
+}
+.link_button:active {
+  background: none;
+  color: #000;
+}
+.nav_form {
+  display: inline;
+}
+
+.account_form {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.account_form input {
+  padding: 5px;
+  border: 1px solid #000;
+}
+
+.cloud_list {
+  margin: 0;
+  padding: 0;
+}
+.cloud_list > li {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #000;
+  background: #fff;
+  margin-bottom: 5px;
+}
+.cloud_title {
+  flex: 1 1 200px;
+  font-weight: bold;
+  word-break: break-all;
+}
+.cloud_meta {
+  font-size: 12px;
+  color: #445;
+}
+.cloud_buttons {
+  display: flex;
+  gap: 5px;
+}
+
+/* 古いブラウザ向けの互換対応
+---------------------------------------------*/
+
+/*
+  IE11はflexbox自体は使えますが、要素間の余白を作る gap プロパティを
+  flexboxの中では無視します（ボタンや項目がすき間なくくっついて見えます）。
+  ここでは代わりにmarginで同じ見た目を再現し、gapが実際に使えるブラウザ
+  だけ @supports でそのmarginを打ち消して二重に余白ができるのを防ぎます。
+  @supports 自体を知らないもっと古いブラウザは、このブロックを丸ごと
+  無視するので、常にmarginによる余白のほうが有効なままになります。
+*/
+nav > ul > li:not(:last-child) {
+  margin-right: 15px;
+}
+.buttons > *:not(:last-child) {
+  margin: 5px;
+}
+.undo_form > *:not(:last-child) {
+  margin-right: 10px;
+}
+.lost_chars > *:not(:last-child) {
+  margin-right: 5px;
+}
+.editor_settings > *:not(:last-child) {
+  margin-right: 5px;
+}
+.upload_form > *:not(:last-child) {
+  margin-right: 8px;
+}
+.account_form > *:not(:last-child) {
+  margin-bottom: 3px;
+}
+.cloud_list > li > *:not(:last-child) {
+  margin-right: 10px;
+}
+.cloud_buttons > *:not(:last-child) {
+  margin-right: 5px;
+}
+
+@supports (gap: 1px) {
+  nav > ul > li:not(:last-child),
+  .buttons > *:not(:last-child),
+  .undo_form > *:not(:last-child),
+  .lost_chars > *:not(:last-child),
+  .editor_settings > *:not(:last-child),
+  .upload_form > *:not(:last-child),
+  .account_form > *:not(:last-child),
+  .cloud_list > li > *:not(:last-child),
+  .cloud_buttons > *:not(:last-child) {
+    margin: 0;
+  }
+}
